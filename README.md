@@ -8,6 +8,9 @@ The code in this repository is still in its preliminary stages and hasn't been f
 For pretrained weights or extracted feature files, please don't hesitate to reach out to me via Gmail.
 
 
+### citation
+I utilized code for image captioning repository below (ExpansionNet V2).
+
 ```bibtex
 @article{hu2022expansionnet,
   title={ExpansionNet v2: Block Static Expansion in fast end to end training for Image Captioning},
