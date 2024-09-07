@@ -13,7 +13,7 @@ I extracted features from 4 pretraiend models with 2 version of input. (total 8)
 
 Final result is average ensemble of them.
 
-For image captioning, I utilized ExpansionNet V2, which outperforms among other arhcitectures. <br>>
+For image captioning, I utilized ExpansionNet V2, which outperforms among other arhcitectures. <br>
 Check src/caption_src/ README.md for details.
 
 ### Get Started
