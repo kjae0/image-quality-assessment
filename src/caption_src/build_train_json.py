@@ -53,7 +53,6 @@ for i in test_img_names[4000:]:
                  "captions":name_cap_dict[i]}
                  )
 
-
 with open(save_dir, "w") as f:
     json.dump(train_infos, f)
     

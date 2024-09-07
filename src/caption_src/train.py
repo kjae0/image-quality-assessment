@@ -4,33 +4,33 @@ import random
 from argparse import Namespace
 from time import time
 
+import pickle5 as pickle
 import numpy as np
 import torch
 import torch.distributed as dist
 import torch.multiprocessing as mp
 import torch.optim as optim
-from torch.nn.parallel import DistributedDataParallel as DDP
+
 from data.coco_dataset import CustomDataset as CocoDatasetKarpathy
 from data.coco_dataloader import CustomDataLoader as CocoDataLoader
 from test import compute_evaluation_loss, evaluate_model_on_set
 from losses.loss import LabelSmoothingLoss
 from losses.reward import ReinforceCiderReward
 from optims.radam import RAdam
+
 from utils import language_utils
 from utils.args_utils import str2bool, str2list, scheduler_type_choice, optim_type_choice
 from utils.saving_utils import load_most_recent_checkpoint, save_last_checkpoint, partially_load_state_dict
 
-torch.autograd.set_detect_anomaly(False)
 torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
+
 import functools
 print = functools.partial(print, flush=True)
-
 
 def convert_time_as_hhmmss(ticks):
     return str(int(ticks / 60)) + " m " + \
            str(int(ticks) % 60) + " s"
-
 
 def train(rank,
           train_args,
@@ -161,27 +161,6 @@ def train(rank,
                 running_reward = 0
                 running_reward_base = 0
                 prev_print_iter = it + 1
-
-        # if ((it + 1) % data_loader.get_num_batches() == 0) or ((it + 1) % train_args.eval_every_iter == 0):
-        if False:
-            if not train_args.reinforce:
-                compute_evaluation_loss(loss_function, ddp_model, coco_dataset, data_loader,
-                                        coco_dataset.val_num_images, sub_batch_size=train_args.eval_parallel_batch_size,
-                                        dataset_split=CocoDatasetKarpathy.ValidationSet_ID,
-                                        rank=rank, verbose=True)
-
-            if rank == 0:
-                print("Evaluation on Validation Set")
-            evaluate_model_on_set(ddp_model, coco_dataset.caption_idx2word_list,
-                                  coco_dataset.get_sos_token_idx(), coco_dataset.get_eos_token_idx(),
-                                  coco_dataset.val_num_images, data_loader,
-                                  CocoDatasetKarpathy.ValidationSet_ID, max_len,
-                                  rank, ddp_sync_port,
-                                  parallel_batches=train_args.eval_parallel_batch_size,
-                                  use_images_instead_of_features=train_args.is_end_to_end,
-                                  beam_sizes=train_args.eval_beam_sizes)
-            time_to_save = True
-
 
         # saving
         elapsed_minutes = (time() - saving_timer_start) / 60
@@ -500,8 +479,6 @@ if __name__ == "__main__":
         preproc_images_hdf5_filepath=path_args.preproc_images_hdf5_filepath if train_args.is_end_to_end else None,
         precalc_features_hdf5_filepath=None if train_args.is_end_to_end else path_args.features_path)
 
-    import pickle5 as pickle
-    
     with open("./inference_materials.pkl", "wb") as f:
         pickle.dump({'word2idx_dict': coco_dataset.caption_word2idx_dict,
                      'idx2word_list': coco_dataset.caption_idx2word_list,
