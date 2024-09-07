@@ -1,10 +1,10 @@
 # image-quality-assessment
 Private 1st code of AI competition "2023 Samsung AI Challenge : Image Quality Assessment" hosted by Samsung AIT &amp; Dacon 
 
-### Overview
+## Overview
 There are two tasks for this competition, image quality assesment and image captioning.
 
-For image quality assessment, 
+### image quality assessment
 1. Extract features from image with pretrained neural network
 2. training autogluon model with extracted features.
 I extracted features from 4 pretraiend models with 2 version of input. (total 8)
@@ -13,11 +13,12 @@ I extracted features from 4 pretraiend models with 2 version of input. (total 8)
 
 Final result is average ensemble of them.
 
-For image captioning, I utilized ExpansionNet V2, which outperforms among other arhcitectures. <br>
+### image captioning
+I utilized ExpansionNet V2, which outperforms among other arhcitectures. <br>
 Check src/caption_src/ README.md for details.
 
-### Get Started
-- Feature extractin for image quality assessment
+## Get Started
+### Feature extractin for image quality assessment
 ~~~ bash
 python ./src/image_src/feature_extraction.py --csv_dir <csv_dir> --root_dir <root_dir> --save_dir <save_dir> --model_name <model_name> --img_size <img_size>
 ~~~
@@ -31,7 +32,7 @@ flip argument is optional, and every model requries pretrained weight. (state_di
 
 For extracted feature files, please don't hesitate to reach out to me via Gmail.
 
-- Run autogluon model
+### Run autogluon model
 For training,
 ~~~bash
 python ./src/image_src/autogluon_reressor.py --data <data_dir>
@@ -42,6 +43,6 @@ For inference,
 python ./src/image_src/autogluon_inference.py
 ~~~
 
-### Sources
+## Sources
 I utilized code for image captioning repository below (ExpansionNet V2).
 https://github.com/jchenghu/ExpansionNet_v2
