@@ -155,7 +155,9 @@ python train.py --N_enc 3 --N_dec 3  \
     --body_save_path /data/jaeyeong/dacon/Image_Quality_Assessment/exv2/ExpansionNet_v2/github_ignore_material/saves/checkpoint_2023-10-01-06:34:30_epoch4it8388bs8_xe_.pth \
     --print_every_iter 300 --eval_every_iter 99999 \
     --reinforce True --num_epochs 15 &> partial_training_cider.txt &
-6. End-to-End Training (CIDEr Optimization)
+~~~
+
+### 6. End-to-End Training (CIDEr Optimization)
 Train the entire model.
 Use the model weights from the last epoch of step 5.
 Run train.py to start training.
@@ -187,8 +189,8 @@ python train.py --N_enc 3 --N_dec 3  \
  --print_every_iter 300 --eval_every_iter 999999 --reinforce True --num_epochs 2 &> end_to_end_cider.txt &
 ~~~
 
-7. Inference
+### 7. Inference
 Execute inference.py for model inference.
 
-8. Submission
+### 8. Submission
 After generating mos_prediction.pkl and comment_prediction.csv, run make_submission.py for submission.
