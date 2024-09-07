@@ -5,7 +5,7 @@ from nfnets import pretrained_nfnet
 import torch
 
 def build_model(model_name, nf_weight_dir=None):
-    if model_name == "ViTHuge":
+    if model_name == "ViTH":
         return ViTHuge()
     elif model_name == "Swin":
         return SwinTransformerV2()
