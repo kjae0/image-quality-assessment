@@ -9,9 +9,6 @@ import os
 # path that trained models are saved.
 # You can use path below if you didn't change manually save path of "autogluon_regressor.py"
 # model_root_dir = "./autogluon_models_full/"
-model_root_dir = "/data/jaeyeong/dacon/Image_Quality_Assessment/IQA/DL_ML_hybrid/autogluon_models_full"
-
-data_root_dir = "/data/jaeyeong/dacon/Image_Quality_Assessment/IQA/DL_ML_hybrid/"
 # data_root_dir = None
 
 def get_prediction(model_dir, data_dir):
@@ -50,30 +47,33 @@ def get_prediction(model_dir, data_dir):
             print(md, d)
     return outs, labels
 
-predictions = []
-labels = []
+if __name__ == "__main__":
+    model_root_dir = "/data/jaeyeong/dacon/Image_Quality_Assessment/IQA/DL_ML_hybrid/autogluon_models_full"
+    data_root_dir = "/data/jaeyeong/dacon/Image_Quality_Assessment/IQA/DL_ML_hybrid/"
+    
+    predictions = []
+    labels = []
+
+    out, label = get_prediction(['nfnet_f5_train_features', 'nfnet_f5_train_features_flip'], # path for loading model trained by train dataset
+                                ['nfnet_f5_test_features.pkl', 'nfnet_f5_test_features_flip.pkl']) # path for loading dataset (test dataset)
+    predictions.extend(out)
+    labels.extend(label)
+
+    out, label = get_prediction(['vit_h_train_features', 'vit_h_train_features_flip'],
+                                ['vit_h_test_features.pkl', 'vit_h_test_features_flip.pkl'])
+    predictions.extend(out)
+    labels.extend(label)
+
+    out, label = get_prediction(['swinv2_l_1k_train_features', 'swinv2_l_1k_train_features_flip'],
+                                ['swinv2_l_1k_test_features.pkl', 'swinv2_l_1k_test_features_flip.pkl'])
+    predictions.extend(out)
+    labels.extend(label)
+
+    out, label = get_prediction(['swinv2_l_22k_train_features', 'swinv2_l_22k_train_features_flip'],
+                                ['swinv2_l_22k_test_features.pkl', 'swinv2_l_22k_test_features_flip.pkl'])
+    predictions.extend(out)
+    labels.extend(label)
 
 
-out, label = get_prediction(['nfnet_f5_train_features', 'nfnet_f5_train_features_flip'], # path for loading model trained by train dataset
-                            ['nfnet_f5_test_features.pkl', 'nfnet_f5_test_features_flip.pkl']) # path for loading dataset (test dataset)
-predictions.extend(out)
-labels.extend(label)
-
-out, label = get_prediction(['vit_h_train_features', 'vit_h_train_features_flip'],
-                            ['vit_h_test_features.pkl', 'vit_h_test_features_flip.pkl'])
-predictions.extend(out)
-labels.extend(label)
-
-out, label = get_prediction(['swinv2_l_1k_train_features', 'swinv2_l_1k_train_features_flip'],
-                            ['swinv2_l_1k_test_features.pkl', 'swinv2_l_1k_test_features_flip.pkl'])
-predictions.extend(out)
-labels.extend(label)
-
-out, label = get_prediction(['swinv2_l_22k_train_features', 'swinv2_l_22k_train_features_flip'],
-                            ['swinv2_l_22k_test_features.pkl', 'swinv2_l_22k_test_features_flip.pkl'])
-predictions.extend(out)
-labels.extend(label)
-
-
-with open("./mos_prediction.pkl", "wb") as f:
-    pickle.dump([predictions, labels], f)
+    with open("./mos_prediction.pkl", "wb") as f:
+        pickle.dump([predictions, labels], f)

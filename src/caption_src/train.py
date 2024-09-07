@@ -4,6 +4,7 @@ import random
 from argparse import Namespace
 from time import time
 
+from torch.nn.parallel import DistributedDataParallel as DDP
 import pickle5 as pickle
 import numpy as np
 import torch
